@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import TodoItem from "./TodoItem";
 import { v4 as uuidv4 } from "uuid";
+import TodoCounter from "./TodoCounter";
 
 const Todo = () => {
   const [todoList, setTodoList] = useState([{ name: "Buy potatos", id: "1" }]);
@@ -32,6 +33,7 @@ const Todo = () => {
         <input type="submit" className="todo-add" />
       </form>
       <div>
+        <TodoCounter count={todoList.length} />
         <ul className="todo-container">
           {todoList.map((todoItem) => (
             <TodoItem
