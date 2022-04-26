@@ -8,6 +8,7 @@ module.exports = {
   ],
   rules: {
     "react/react-in-jsx-scope": 0,
+    "jsx-a11y/no-autofocus": 0,
     "prettier/prettier": "error",
   },
   plugins: ["react", "import", "jsx-a11y", "prettier"],

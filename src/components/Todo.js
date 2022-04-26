@@ -1,29 +1,23 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useContext } from "react";
 import TodoItem from "./TodoItem";
 import { v4 as uuidv4 } from "uuid";
+import todoContext from "../context";
+import { TYPES } from "../reducer";
 import TodoCounter from "./TodoCounter";
 
 const Todo = () => {
-  const [todoList, setTodoList] = useState([{ name: "Buy potatos", id: "1" }]);
+  // const [todoList, setTodoList] = useState([{ name: "Buy potatos", id: "1" }]);
   const todoInput = useRef(null);
+  const {
+    state: { todos: todoList },
+    dispatch,
+  } = useContext(todoContext);
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    // const todo = document.querySelector('.todo-input').value;
-    const name = todoInput.current.value;
-    const id = uuidv4();
-    const newTodo = { name, id };
-    // console.log(todoList);
-    // todoList.push(newTodo);
-    if (name !== "") {
-      setTodoList([...todoList, newTodo]);
-    }
+    const todoText = todoInput.current.value;
+    dispatch({ type: TYPES.ADD_TODO, payload: todoText });
     todoInput.current.value = "";
-  };
-
-  const handleRemove = (id) => {
-    const newTodos = todoList.filter((e) => e.id !== id);
-    setTodoList(newTodos);
   };
 
   return (
@@ -40,7 +34,8 @@ const Todo = () => {
               key={todoItem.id}
               id={todoItem.id}
               name={todoItem.name}
-              removeHandler={handleRemove}
+              completed={todoItem.completed}
+              index={todoItem.index}
             />
           ))}
         </ul>
