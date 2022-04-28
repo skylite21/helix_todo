@@ -34,6 +34,12 @@ body {
 	outline: none;
 }
 
+.todo-item-input {
+	box-sizing: border-box;
+	font-size: 16px;
+	width: 100%;
+}
+
 .todo-add {
 	background-color: #21b734;
 	border: 0;
@@ -60,6 +66,33 @@ body {
 	padding: 10px 15px;
 }
 
+.complete-button {
+	background-color: #fff;
+	border-radius: 100%;
+	cursor: pointer;
+	float: left;
+	font-size: 2em;
+	height: 32px;
+	left: -5px;
+	position: relative;
+	top: -5px;
+	width: 32px;
+}
+
+.todo-completed {
+	text-decoration: line-through;
+}
+
+.completed::before {
+	color: #21b734;
+	content: '\2713';
+	display: block;
+	left: 3px;
+	position: relative;
+	top: -6px;
+	transform: rotate(7deg);
+}
+
 .remove-button {
 	cursor: pointer;
 	float: right;
@@ -67,6 +100,7 @@ body {
 	opacity: 0.3;
 	position: relative;
 	width: 32px;
+	z-index: 2;
 
 	&:hover {
 		opacity: 1;
@@ -90,4 +124,11 @@ body {
 	&::after {
 		transform: rotate(-45deg);
 	}
+}
+
+
+.server-error {
+	color: #e52525;
+	margin: 10px 0;
+
 }
