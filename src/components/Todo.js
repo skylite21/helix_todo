@@ -4,6 +4,9 @@ import { v4 as uuidv4 } from "uuid";
 import todoContext from "../context";
 import { TYPES } from "../reducer";
 import TodoCounter from "./TodoCounter";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import update from "immutability-helper";
 
 const Todo = () => {
   // const [todoList, setTodoList] = useState([{ name: "Buy potatos", id: "1" }]);
@@ -20,6 +23,19 @@ const Todo = () => {
     todoInput.current.value = "";
   };
 
+  const moveCard = (dragIndex, hoverIndex) => {
+    dispatch({
+      type: TYPES.SET_TODOS,
+      // https://reactjs.org/docs/optimizing-performance.html#the-power-of-not-mutating-data
+      payload: update(todoList, {
+        $splice: [
+          [dragIndex, 1],
+          [hoverIndex, 0, todoList[dragIndex]],
+        ],
+      }),
+    });
+  };
+
   return (
     <>
       <form className="todo-form" onSubmit={handleSubmit}>
@@ -28,17 +44,20 @@ const Todo = () => {
       </form>
       <div>
         <TodoCounter count={todoList.length} />
-        <ul className="todo-container">
-          {todoList.map((todoItem) => (
-            <TodoItem
-              key={todoItem.id}
-              id={todoItem.id}
-              name={todoItem.name}
-              completed={todoItem.completed}
-              index={todoItem.index}
-            />
-          ))}
-        </ul>
+        <DndProvider backend={HTML5Backend}>
+          <ul className="todo-container">
+            {todoList.map((todoItem) => (
+              <TodoItem
+                key={todoItem.id}
+                id={todoItem.id}
+                name={todoItem.name}
+                completed={todoItem.completed}
+                index={todoItem.index}
+                moveCard={moveCard}
+              />
+            ))}
+          </ul>
+        </DndProvider>
       </div>
     </>
   );
